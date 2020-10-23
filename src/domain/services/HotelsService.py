@@ -9,6 +9,7 @@ class HotelsDomainService:
 
     def allHotelsByPopularity(self):
         resumen = pd.DataFrame(self.df.groupby(['hotel_name']).size())
+        resumen = resumen.sort_values(by=0, ascending=False)
         return resumen[0].to_dict()
 
     def allHotelsSentimentDistribution(self):
