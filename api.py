@@ -4,7 +4,7 @@ from models.Hotel import hotel_resource_fields, Hotel
 from response import response_resource_fields, Response
 
 #Routes imports
-from services.router.HotelsRouter import HotelsRouter
+from services.router.HotelsRouter import MainRouter
 
 app = Flask(__name__)
 api = Api(app)
@@ -30,7 +30,7 @@ class TestResponse(Resource):
 api.add_resource(TestResponse, '/response')
 
 
-api.add_resource(HotelsRouter, '/hotels')
+MainRouter(api).init()
 
 if __name__ == '__main__':
     app.run(debug=True)
