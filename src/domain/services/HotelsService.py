@@ -12,5 +12,5 @@ class HotelsDomainService:
         return resumen[0].to_dict()
 
     def allHotelsSentimentDistribution(self):
-        resumen = pd.DataFrame(self.df.groupby(['hotel_name','']).size())
-        return resumen[0].to_dict()
+        rating_dist = self.df.pivot_table(values='rating',index=['hotel_name','sentiment_label'], aggfunc=len)
+        return rating_dist
