@@ -1,12 +1,13 @@
 class HotelTransformer:
-    hotel_coment_dist = {}
+    __hotel_coment_dist = {}
 
-    def write(self, df):
+    def write(self, df, params = { 'sent': [0,1,2] }):
         for hotel, sub_df_hotel in df.groupby(level=0):
-            self.hotel_coment_dist[hotel] = {}
+            self.__hotel_coment_dist[hotel] = {}
             for sent, sub_df_hotel_sent in sub_df_hotel.groupby(level=1):
-                self.hotel_coment_dist[hotel][str(sent)] = int(sub_df_hotel_sent.values[0,0])  
+                if sent in params['sent']:
+                    self.__hotel_coment_dist[hotel][str(sent)] = [int(item) for item in sub_df_hotel_sent.values[0,:]]  
 
     def read(self):
-        return self.hotel_coment_dist
+        return self.__hotel_coment_dist
 

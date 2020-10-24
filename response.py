@@ -3,7 +3,7 @@ from flask_restful import fields
 response_resource_fields = {
     'error': fields.String,
     'flash': fields.String,
-    'data': fields.List(fields.Raw),
+    'data': fields.Raw,
     'status': fields.Integer,
 }
 
