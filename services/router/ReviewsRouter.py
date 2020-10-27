@@ -7,7 +7,8 @@ from src.application.CountReviews import CountReviews, CountReviewsCommand
 from src.domain.services.ReviewsService import ReviewsDomainService
 from response import response_resource_fields, Response
 from helpers.FilterAdapter import FilterAdapter
-from src.application.transformers.ReviewsTransformer import ReviewsCountTransformer
+from src.application.transformers.ReviewsTransformer import ReviewsCountTransformer, WordFrequencyTrasnformer
+from src.application.GetReviewsWordsFrequence import GetReviewsWordsFrequence
 
 df_tripadvisor = Connection().getDataSet('tripadvisor')
 
@@ -31,6 +32,15 @@ class ReviewsCountRouter(Resource):
         
         return Response(0,'ha stato tutto benne!',  response,  200)
 
+class ReviewsWordsFrequencyRouter(Resource):
+     @marshal_with(response_resource_fields)
+     def get(self):
+        args = FilterAdapter().adapt()
+        service = GetReviewsWordsFrequence(ReviewsDomainService(df_tripadvisor), WordFrequencyTrasnformer())
+        response = service.process()
+        
+        return Response(0,'ha stato tutto benne!',  response,  200)
+
 class MainRouter:
     def __init__(self,api):
         self.api = api
@@ -38,3 +48,4 @@ class MainRouter:
     def init(self):
         self.api.add_resource(ReviewsRouter, '/reviews')
         self.api.add_resource(ReviewsCountRouter, '/reviews/count')
+        self.api.add_resource(ReviewsWordsFrequencyRouter, '/reviews/wordsFrequence')

@@ -15,3 +15,16 @@ class ReviewsCountTransformer:
     """
     def read(self):
         return self.__hotel_popularity
+
+class WordFrequencyTrasnformer:
+    __words_frequency = []
+
+    def write(self, df):
+         for index, value in enumerate(df):
+            self.__words_frequency.append({
+                'text': df.index.values[index], 
+                'value': int(value) 
+                })
+                
+    def read(self):
+        return self.__words_frequency
