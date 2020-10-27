@@ -9,17 +9,11 @@ from src.domain.services.HotelsService import HotelsDomainService
 from response import response_resource_fields, Response
 from helpers.FilterAdapter import FilterAdapter
 from src.application.transformers.HotelTransformer import HotelPopularityTransformer, HotelPopularityDistributionTransformer, HotelYearTimeSeriesTransformer
-from helpers.DateParsers import TripDateToISO8601
+
 import pandas as pd
 from src.application.GetHotelsYearsTimeSerie import GetHotelsYearsTimeSerie
 
 df_tripadvisor = Connection().getDataSet('tripadvisor')
-#df_tripadvisor = df_tripadvisor.drop([11890,11891])
-sentiment = [0 if int(i)<=20 else 1 if int(i)==30 else 2 for i in df_tripadvisor.rating]
-ISO_dates = [TripDateToISO8601(date) for date in df_tripadvisor.review_date]
-df_tripadvisor['sentiment_label'] = sentiment
-df_tripadvisor['review_date'] = pd.to_datetime(ISO_dates)
-
 class HotelsRouter(Resource):
     @marshal_with(response_resource_fields)
     def get(self):

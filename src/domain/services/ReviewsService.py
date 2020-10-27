@@ -15,4 +15,5 @@ class ReviewsDomainService:
     Método encargado de devolver el número total de reviews disponibles en el dataset
     """
     def allReviewsCount(self):
-        return len(self.df.review_body)
+        reviews_size = self.df.pivot_table(values='rating',index=['sentiment_label'], aggfunc=len)
+        return reviews_size
