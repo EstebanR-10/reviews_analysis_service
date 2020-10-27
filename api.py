@@ -4,18 +4,20 @@ from models.Hotel import hotel_resource_fields, Hotel
 from response import response_resource_fields, Response
 
 #Routes imports
-from services.router.HotelsRouter import MainRouter
+from services.router.HotelsRouter import MainRouter as HotelsMainRouter
+from services.router.ReviewsRouter import MainRouter as ReviewsMainRouter
 
 app = Flask(__name__)
 api = Api(app)
 
 class HelloWorld(Resource):
     def get(self):
+        
         hotel_resource_fields['nombre'] = 'pedro'
         hotel_resource_fields['nombre2'] = 'andreu'
         
         return hotel_resource_fields
-api.add_resource(HelloWorld, '/')
+api.add_resource(HelloWorld, '/hello')
 
 class HelloWorldMarshal(Resource):
     @marshal_with(hotel_resource_fields)
@@ -29,8 +31,15 @@ class TestResponse(Resource):
         return Response(0,'ha stato tutto benne!',  [ marshal(Hotel('prueba bunbury','cardiel'),hotel_resource_fields) ],  200)
 api.add_resource(TestResponse, '/response')
 
+class Main(Resource):
+    @marshal_with(response_resource_fields)
+    def get(self):
+        return Response(0,'Bienvenido a la API de análisis de reviews en su versión local!',  None,  200)
+api.add_resource(Main, '/')
 
-MainRouter(api).init()
+
+HotelsMainRouter(api).init()
+ReviewsMainRouter(api).init()
 
 if __name__ == '__main__':
     app.run(debug=True)
