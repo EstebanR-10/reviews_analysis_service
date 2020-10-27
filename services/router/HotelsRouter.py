@@ -8,7 +8,7 @@ from src.application.FetchHotelsSentimentDistribution import FetchHotelsSentimen
 from src.domain.services.HotelsService import HotelsDomainService
 from response import response_resource_fields, Response
 from helpers.FilterAdapter import FilterAdapter
-from src.application.transformers.HotelTransformer import HotelTransformer
+from src.application.transformers.HotelTransformer import HotelPopularityTransformer, HotelPopularityDistributionTransformer, HotelYearTimeSeriesTransformer
 from helpers.DateParsers import TripDateToISO8601
 import pandas as pd
 from src.application.GetHotelsYearsTimeSerie import GetHotelsYearsTimeSerie
@@ -32,9 +32,7 @@ class HotelsRouter(Resource):
 class PopularityRouter(Resource):
      @marshal_with(response_resource_fields)
      def get(self):
-        parser =  FilterAdapter().parser()
-        args = FilterAdapter().adapt()
-        service = FetchHotelsByPopularity(HotelsDomainService(df_tripadvisor))
+        service = FetchHotelsByPopularity(HotelsDomainService(df_tripadvisor),  HotelPopularityTransformer())
         response = service.process()
         
         return Response(0,'ha stato tutto benne!',  response,  200)
@@ -42,9 +40,8 @@ class PopularityRouter(Resource):
 class PopularityDistributionRouter(Resource):
      @marshal_with(response_resource_fields)
      def get(self):
-        parser =  FilterAdapter().parser()
         args = FilterAdapter().adapt()
-        service = FetchHotelsSentimentDistribution(HotelsDomainService(df_tripadvisor), HotelTransformer())
+        service = FetchHotelsSentimentDistribution(HotelsDomainService(df_tripadvisor), HotelPopularityDistributionTransformer())
 
         response = service.process(FetchHotelsSentimentDistributionCommand(args))
         
@@ -54,7 +51,7 @@ class YearTimeSeriesRouter(Resource):
     @marshal_with(response_resource_fields)
     def get(self):
         
-        service = GetHotelsYearsTimeSerie(HotelsDomainService(df_tripadvisor), HotelTransformer())
+        service = GetHotelsYearsTimeSerie(HotelsDomainService(df_tripadvisor), HotelYearTimeSeriesTransformer())
         response = service.process()
         
         return Response(0,'ha stato tutto benne!',  response,  200)

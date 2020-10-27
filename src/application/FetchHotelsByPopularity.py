@@ -1,7 +1,9 @@
 class FetchHotelsByPopularity:
 
-    def __init__(self, domainService):
+    def __init__(self, domainService, trasnformer):
         self.domainService = domainService
+        self.transformer = trasnformer
 
     def process(self):
-        return self.domainService.allHotelsByPopularity()
+        self.transformer.write(self.domainService.allHotelsByPopularity())
+        return self.transformer.read()
