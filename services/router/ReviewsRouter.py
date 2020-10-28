@@ -10,7 +10,7 @@ from helpers.FilterAdapter import FilterAdapter
 from src.application.transformers.ReviewsTransformer import ReviewsCountTransformer, WordFrequencyTrasnformer
 from src.application.GetReviewsWordsFrequence import GetReviewsWordsFrequence
 
-df_tripadvisor = Connection().getDataSet('tripadvisor')
+df_tripadvisor = Connection().getDataSet('tripadvisor2')
 
 """
 Endpoint de reviews

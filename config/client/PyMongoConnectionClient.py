@@ -11,8 +11,8 @@ class Connection(object):
 
     def __initData(self):
         Connection.__singletonConnection.__db = Connection.__singletonConnection.__getDataBase()
-        Connection.__singletonConnection.__loadDataSets('tripadvisor')
-        Connection.__singletonConnection.__prepareDataSet(Connection.__singletonConnection.__datasets['tripadvisor'])
+        Connection.__singletonConnection.__loadDataSets('tripadvisor2')
+        Connection.__singletonConnection.__prepareDataSet(Connection.__singletonConnection.__datasets['tripadvisor2'])
 
     def __getDataBase(self):
         return self.__client.scraping
@@ -21,9 +21,9 @@ class Connection(object):
         collection = self.__db[name]
         cursor = collection.find({},{ "_id": 0 })
         self.__datasets[name] = (pd.DataFrame(list(cursor)))
+        self.__datasets[name] =  self.__datasets[name].drop([11890,11891])
 
     def __prepareDataSet(self,df):
-        #df_tripadvisor = df_tripadvisor.drop([11890,11891])
         sentiment = [0 if int(i)<=20 else 1 if int(i)==30 else 2 for i in df.rating]
         ISO_dates = [TripDateToISO8601(date) for date in df.review_date]
         df['sentiment_label'] = sentiment

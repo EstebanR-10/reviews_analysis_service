@@ -13,7 +13,7 @@ from src.application.transformers.HotelTransformer import HotelPopularityTransfo
 import pandas as pd
 from src.application.GetHotelsYearsTimeSerie import GetHotelsYearsTimeSerie
 
-df_tripadvisor = Connection().getDataSet('tripadvisor')
+df_tripadvisor = Connection().getDataSet('tripadvisor2')
 class HotelsRouter(Resource):
     @marshal_with(response_resource_fields)
     def get(self):
