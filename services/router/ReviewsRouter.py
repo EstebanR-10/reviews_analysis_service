@@ -35,7 +35,6 @@ class ReviewsCountRouter(Resource):
 class ReviewsWordsFrequencyRouter(Resource):
      @marshal_with(response_resource_fields)
      def get(self):
-        args = FilterAdapter().adapt()
         service = GetReviewsWordsFrequence(ReviewsDomainService(df_tripadvisor), WordFrequencyTrasnformer())
         response = service.process()
         

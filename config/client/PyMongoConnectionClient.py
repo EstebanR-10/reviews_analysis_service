@@ -7,17 +7,18 @@ class Connection(object):
     __singletonConnection = None
     __client = MongoClient("mongodb+srv://Unicaribe123:Unicaribe123@cluster0.h212q.gcp.mongodb.net/scraping?retryWrites=true&w=majority")
     __datasets = {}
+    __db = {}   
 
-    def __init__(self):
-        self.db = self.__getDataBase()
-        self.__loadDataSets('tripadvisor')
-        self.__prepareDataSet(self.__datasets['tripadvisor'])
+    def __initData(self):
+        Connection.__singletonConnection.__db = Connection.__singletonConnection.__getDataBase()
+        Connection.__singletonConnection.__loadDataSets('tripadvisor')
+        Connection.__singletonConnection.__prepareDataSet(Connection.__singletonConnection.__datasets['tripadvisor'])
 
     def __getDataBase(self):
         return self.__client.scraping
 
     def __loadDataSets(self, name):
-        collection = self.db[name]
+        collection = self.__db[name]
         cursor = collection.find({},{ "_id": 0 })
         self.__datasets[name] = (pd.DataFrame(list(cursor)))
 
@@ -28,6 +29,9 @@ class Connection(object):
         df['sentiment_label'] = sentiment
         df['review_date'] = pd.to_datetime(ISO_dates)
 
+    def __str__(self):
+        return hex(id(self))
+
     def getDataSet(self,name):
         return self.__datasets[name]
 
@@ -35,4 +39,6 @@ class Connection(object):
     def __new__(cls):
         if Connection.__singletonConnection is None:
             Connection.__singletonConnection = object.__new__(cls)
+            Connection.__singletonConnection.__initData()
+
         return Connection.__singletonConnection

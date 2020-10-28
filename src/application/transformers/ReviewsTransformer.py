@@ -1,7 +1,7 @@
 class ReviewsCountTransformer:
     __hotel_popularity = {}
 
-    def write(self, df, params = { 'sent': [0,1,2] }):
+    def write(self, df, params = None):
         if(params):
             for index, value in enumerate(df['rating']):
                 sent = df.index.values[index]
