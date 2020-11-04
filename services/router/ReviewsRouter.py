@@ -9,7 +9,7 @@ from response import response_resource_fields, Response
 from helpers.FilterAdapter import FilterAdapter
 from src.application.transformers.ReviewsTransformer import ReviewsCountTransformer, WordFrequencyTrasnformer
 from src.application.GetReviewsWordsFrequence import GetReviewsWordsFrequence
-from src.application.GetAprioriReviewRules import GetAprioriReviewRules
+from src.application.GetAprioriReviewRules import GetAprioriReviewRules, GetAprioriReviewRulesCommand
 from src.application.transformers.AprioriTransformer import AprioriTransformer
 from src.domain.services.NaturalLanguageProcessingService import NaturalLanguageProcessingService
 df_tripadvisor = Connection().getDataSet('tripadvisor')
@@ -51,8 +51,9 @@ Endpoint encargado de la obtención de las reglas de asociación entre las palab
 class AprioriReviewRules(Resource):
      @marshal_with(response_resource_fields)
      def get(self):
+        args = FilterAdapter().adapt()
         service = GetAprioriReviewRules(NaturalLanguageProcessingService(df_tripadvisor), AprioriTransformer())
-        response = service.process()
+        response = service.process(GetAprioriReviewRulesCommand(10, args))
         
         return Response(0,'ha stato tutto benne!',  response,  200)
 
