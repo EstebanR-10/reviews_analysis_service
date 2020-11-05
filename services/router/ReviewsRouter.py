@@ -12,7 +12,7 @@ from src.application.GetReviewsWordsFrequence import GetReviewsWordsFrequence
 from src.application.GetAprioriReviewRules import GetAprioriReviewRules, GetAprioriReviewRulesCommand
 from src.application.transformers.AprioriTransformer import AprioriTransformer
 from src.domain.services.NaturalLanguageProcessingService import NaturalLanguageProcessingService
-df_tripadvisor = Connection().getDataSet('tripadvisor2')
+df_tripadvisor = Connection().getDataSet('tripadvisor')
 
 """
 Endpoint de reviews
