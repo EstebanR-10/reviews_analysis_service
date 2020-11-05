@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from flask_restful import Resource, Api, marshal_with, marshal
 from models.Hotel import hotel_resource_fields, Hotel
@@ -6,6 +7,8 @@ from response import response_resource_fields, Response
 #Routes imports
 from services.router.HotelsRouter import MainRouter as HotelsMainRouter
 from services.router.ReviewsRouter import MainRouter as ReviewsMainRouter
+
+port = int(os.environ.get("PORT", 5000))
 
 app = Flask(__name__)
 api = Api(app)
@@ -42,4 +45,4 @@ HotelsMainRouter(api).init()
 ReviewsMainRouter(api).init()
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False, host='0.0.0.0', port=port)
