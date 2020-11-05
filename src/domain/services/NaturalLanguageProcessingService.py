@@ -6,9 +6,12 @@ class NaturalLanguageProcessingService:
     def __init__(self, df: pd.DataFrame):
         self.df = df
 
-    def apriori(self, wordsQuantity: int = None) -> list:
+    def apriori(self, wordsQuantity: int = None, params: dict = {}) -> list:
+        support = params['support'] if 'support' in params else 0.0045
+        confidence = params['confidence'] if 'confidence' in params else 0.5 
+        
         transactions = getColumnWords(self.df, wordsQuantity)
-        association_rules = apriori(transactions, min_support=0.0045, min_confidence=0.5, min_lift=3, min_length=3)
+        association_rules = apriori(transactions, min_support=support, min_confidence=confidence, min_lift=3, min_length=3)
         return self.sortRules(list(association_rules))
     
     def sortRules(self, association_results: list) -> list:
