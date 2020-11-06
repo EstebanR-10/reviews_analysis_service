@@ -3,6 +3,7 @@ from flask import Flask
 from flask_restful import Resource, Api, marshal_with, marshal
 from models.Hotel import hotel_resource_fields, Hotel
 from response import response_resource_fields, Response
+from flask_cors import CORS
 
 #Routes imports
 from services.router.HotelsRouter import MainRouter as HotelsMainRouter
@@ -11,6 +12,8 @@ from services.router.ReviewsRouter import MainRouter as ReviewsMainRouter
 port = int(os.environ.get("PORT", 5000))
 
 app = Flask(__name__)
+CORS(app)
+
 api = Api(app)
 
 class HelloWorld(Resource):
