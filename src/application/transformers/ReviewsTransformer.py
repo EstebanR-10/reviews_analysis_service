@@ -17,7 +17,9 @@ class ReviewsCountTransformer:
         return self.__hotel_popularity
 
 class WordFrequencyTrasnformer:
-    __words_frequency = []
+        
+    def __init__(self):
+        self.__words_frequency = []
 
     def write(self, df):
          for index, value in enumerate(df):

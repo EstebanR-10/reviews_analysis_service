@@ -1,8 +1,7 @@
 import pandas as pd
 import re
-from helpers.BagOfWords import stopwords
+from helpers.BagOfWords import stopwords, detected_stop
 
-detected_stop = ['lagunamar', 't', 'oasis', 'fiesta', 'consesa', 'americana', 'grand', 'telmo', 'san', 'wi','fi', 'hotel']
 
 ###
 # Función encargada de convertir una columna de un dataframe en una lista de listas con las palabras de cada fila.
