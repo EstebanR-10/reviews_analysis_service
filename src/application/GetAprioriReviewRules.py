@@ -1,8 +1,9 @@
-from src.application.transformers.AprioriTransformer import AprioriTransformer
+from src.application.transformers.AprioriTransformer import AprioriTransformer 
+from src.domain.services.NaturalLanguageProcessingService import NaturalLanguageProcessingService
 
 class GetAprioriReviewRules:
 
-    def __init__(self, domainService, transformer: AprioriTransformer):
+    def __init__(self, domainService: NaturalLanguageProcessingService, transformer: AprioriTransformer):
         self.domainService = domainService
         self.transformer = transformer
 

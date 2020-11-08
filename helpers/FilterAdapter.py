@@ -18,6 +18,7 @@ class FilterAdapter:
         self.__aParser.add_argument('words', type=str, help='list of words of for including in apriori algorithm')
         self.__aParser.add_argument('takeRules', type=int, help='number of rules to return')
         self.__aParser.add_argument('strict', type=inputs.boolean, help='boolean that defines if all words should be taked')
+        self.__aParser.add_argument('hotels', type=str, help='hotels to be displayed')
 
     def adapt(self):
         params = self.__aParser.parse_args()

@@ -2,14 +2,18 @@ import pandas as pd
 import re
 from helpers.BagOfWords import stopwords
 
-detected_stop = ['lagunamar', 't']
+detected_stop = ['lagunamar', 't', 'oasis', 'fiesta', 'consesa', 'americana', 'grand', 'telmo', 'san', 'wi','fi', 'hotel']
 
 ###
 # Función encargada de convertir una columna de un dataframe en una lista de listas con las palabras de cada fila.
 # @param pandas.DataFrame 'df' dataframe
 # @return List 'transactions' 
 ###
-def getColumnWords(df: pd.DataFrame, size: int = None) -> list:
+def getColumnWords(df: pd.DataFrame, size: int = None, hotels: list = None) -> list:
+    
+    if hotels:
+        df = df[df['hotel_name'].isin(hotels)]
+
     transactions = []
     for review in df.review_body:
         tokens = re.findall(r'\w+|\d+',review)

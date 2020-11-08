@@ -9,8 +9,9 @@ class NaturalLanguageProcessingService:
     def apriori(self, wordsQuantity: int = None, params: dict = {}) -> list:
         support = params['support'] if 'support' in params else 0.0045
         confidence = params['confidence'] if 'confidence' in params else 0.5 
+        hotels = params['hotels'] if 'hotels' in params else None
         
-        transactions = getColumnWords(self.df, wordsQuantity)
+        transactions = getColumnWords(self.df, wordsQuantity, [hotels])
         association_rules = apriori(transactions, min_support=support, min_confidence=confidence, min_lift=3, min_length=3)
         return self.sortRules(list(association_rules))
     
