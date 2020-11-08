@@ -10,8 +10,8 @@ from flask_restful import Resource, Api, marshal_with, marshal, reqparse
 from src.application.FetchHotelsByPopularity import FetchHotelsByPopularity
 from src.application.GetHotelsYearsTimeSerie import GetHotelsYearsTimeSerie, Command as GetHotelsYearsTimeSerieCommand
 from src.application.FetchHotelsSentimentDistribution import FetchHotelsSentimentDistribution, Command as FetchHotelsSentimentDistributionCommand
-from src.application.transformers.HotelTransformer import HotelPopularityTransformer, HotelPopularityDistributionTransformer, HotelYearTimeSeriesTransformer
-
+from src.application.transformers.HotelTransformer import HotelPopularityTransformer, HotelPopularityDistributionTransformer, HotelYearTimeSeriesTransformer, HotelMonthTimeSeriesTransformer
+from src.application.GetHotelsMonthTimeSerie import GetHotelsMonthTimeSerie, Command as GetHotelsMonthTimeSerieCommand
 
 df_tripadvisor = Connection().getDataSet('tripadvisor')
 class HotelsRouter(Resource):
@@ -49,6 +49,15 @@ class YearTimeSeriesRouter(Resource):
         response = service.process(GetHotelsYearsTimeSerieCommand(args))
         
         return Response(0,'ha stato tutto benne!',  response,  200)
+
+class MonthTimeSeriesRouter(Resource):
+    @marshal_with(response_resource_fields)
+    def get(self):
+        args = FilterAdapter().adapt()
+        service = GetHotelsMonthTimeSerie(HotelsDomainService(df_tripadvisor), HotelMonthTimeSeriesTransformer())
+        response = service.process(GetHotelsMonthTimeSerieCommand(args))
+        
+        return Response(0,'ha stato tutto benne!',  response,  200)
 class MainRouter:
     def __init__(self,api):
         self.api = api
@@ -58,3 +67,4 @@ class MainRouter:
         self.api.add_resource(PopularityRouter, '/hotels/popularity')
         self.api.add_resource(PopularityDistributionRouter, '/hotels/popularity/distribution')
         self.api.add_resource(YearTimeSeriesRouter, '/hotels/popularity/distribution/yearTimeSeries')
+        self.api.add_resource(MonthTimeSeriesRouter, '/hotels/popularity/distribution/monthTimeSeries')
