@@ -1,17 +1,17 @@
+import pandas as pd
 from flask import Flask
-from flask_restful import Resource, Api, marshal_with, marshal, reqparse
-from models.Hotel import hotel_resource_fields, Hotel
-from config.client.PyMongoConnectionClient import Connection
-from src.application.FetchHotels import FetchHotels
-from src.application.FetchHotelsByPopularity import FetchHotelsByPopularity
-from src.application.FetchHotelsSentimentDistribution import FetchHotelsSentimentDistribution, Command as FetchHotelsSentimentDistributionCommand
-from src.domain.services.HotelsService import HotelsDomainService
-from response import response_resource_fields, Response
 from helpers.FilterAdapter import FilterAdapter
+from src.application.FetchHotels import FetchHotels
+from models.Hotel import hotel_resource_fields, Hotel
+from response import response_resource_fields, Response
+from config.client.PyMongoConnectionClient import Connection
+from src.domain.services.HotelsService import HotelsDomainService
+from flask_restful import Resource, Api, marshal_with, marshal, reqparse
+from src.application.FetchHotelsByPopularity import FetchHotelsByPopularity
+from src.application.GetHotelsYearsTimeSerie import GetHotelsYearsTimeSerie, Command as GetHotelsYearsTimeSerieCommand
+from src.application.FetchHotelsSentimentDistribution import FetchHotelsSentimentDistribution, Command as FetchHotelsSentimentDistributionCommand
 from src.application.transformers.HotelTransformer import HotelPopularityTransformer, HotelPopularityDistributionTransformer, HotelYearTimeSeriesTransformer
 
-import pandas as pd
-from src.application.GetHotelsYearsTimeSerie import GetHotelsYearsTimeSerie
 
 df_tripadvisor = Connection().getDataSet('tripadvisor')
 class HotelsRouter(Resource):
@@ -44,9 +44,9 @@ class PopularityDistributionRouter(Resource):
 class YearTimeSeriesRouter(Resource):
     @marshal_with(response_resource_fields)
     def get(self):
-        
+        args = FilterAdapter().adapt()
         service = GetHotelsYearsTimeSerie(HotelsDomainService(df_tripadvisor), HotelYearTimeSeriesTransformer())
-        response = service.process()
+        response = service.process(GetHotelsYearsTimeSerieCommand(args))
         
         return Response(0,'ha stato tutto benne!',  response,  200)
 class MainRouter:
