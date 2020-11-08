@@ -1,6 +1,8 @@
 from sklearn.feature_extraction.text import CountVectorizer
 import pandas as pd
 
+
+detected_stop = ['lagunamar', 't', 'oasis', 'fiesta', 'consesa', 'americana', 'grand', 'telmo', 'san', 'wi','fi','hoteles']
 stopwords = {'english': ['sometimes',
   'mill',
   'other',

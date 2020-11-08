@@ -1,5 +1,5 @@
 import pandas as pd
-from helpers.BagOfWords import BagOfWords, stopwords
+from helpers.BagOfWords import BagOfWords, stopwords, detected_stop
 class ReviewsDomainService:
     def __init__(self, df):
         self.df = df
@@ -19,6 +19,6 @@ class ReviewsDomainService:
         return reviews_size
     
     def wordsFrequency(self):
-        bow_df = BagOfWords(self.df, set(stopwords['english']).union(set( stopwords['spanish'])))
+        bow_df = BagOfWords(self.df, set(stopwords['english']).union(set( stopwords['spanish'])).union(set(detected_stop)))
         word_freq = bow_df.sum().sort_values(ascending=False)
         return word_freq

@@ -20,3 +20,8 @@ class HotelsDomainService:
         self.df['date']=self.df['review_date'].dt.year
         pivot = self.df.pivot_table(values='review_body',index=['hotel_name','sentiment_label'], columns='date', aggfunc=len).fillna(0)
         return pivot
+
+    def allHotelsSentimentMonthDistributionTimeSeries(self):
+        self.df['month']=self.df['review_date'].dt.to_period('M')
+        pivot = self.df.pivot_table(values='review_body',index=['hotel_name','sentiment_label'], columns='month', aggfunc=len).fillna(0)
+        return pivot

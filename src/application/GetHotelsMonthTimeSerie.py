@@ -3,16 +3,16 @@ from src.application.transformers.HotelTransformer import HotelYearTimeSeriesTra
 
 """
 Caso de uso para obtener los datos de graficación para una 
-serie de tiempo del número de reviews por año de cada hotel.
+serie de tiempo del número de reviews por mes de cada hotel.
 """
-class GetHotelsYearsTimeSerie:
+class GetHotelsMonthTimeSerie:
 
     def __init__(self, domainService: HotelsDomainService, transformer: HotelYearTimeSeriesTransformer):
         self.domainService = domainService
         self.transformer = transformer
 
     def process(self, command):
-        df = self.domainService.allHotelsSentimentDistributionTimeSeries()
+        df = self.domainService.allHotelsSentimentMonthDistributionTimeSeries()
         self.transformer.write(df, command.params())
         return self.transformer.read()
 

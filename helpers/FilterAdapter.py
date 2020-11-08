@@ -4,7 +4,7 @@ import re
 
 
 class FilterAdapter:
-    __ALLOWED_PARAMS = {'sent': 'sent', 'words':'words', 'strict':'strict'}
+    __ALLOWED_PARAMS = {'sent': 'sent', 'words':'words', 'strict':'strict', 'hotels':'hotels'}
     __params_received = {}
     __aParser = reqparse.RequestParser()
    
@@ -18,6 +18,7 @@ class FilterAdapter:
         self.__aParser.add_argument('words', type=str, help='list of words of for including in apriori algorithm')
         self.__aParser.add_argument('takeRules', type=int, help='number of rules to return')
         self.__aParser.add_argument('strict', type=inputs.boolean, help='boolean that defines if all words should be taked')
+        self.__aParser.add_argument('hotels', type=str, help='hotels to be displayed')
 
     def adapt(self):
         params = self.__aParser.parse_args()
@@ -32,7 +33,7 @@ class FilterAdapter:
     def parseParams(self, param: str):
         if param == self.__ALLOWED_PARAMS['sent']:
             return self.parseSentimentParam
-        elif param == self.__ALLOWED_PARAMS['words']:
+        elif param == self.__ALLOWED_PARAMS['words'] or param == self.__ALLOWED_PARAMS['hotels']:
             return self.parseWords
         else:
             return lambda x: x
@@ -42,6 +43,4 @@ class FilterAdapter:
         return [int(sent) for sent in sents]
     
     def parseWords(self, string: str) -> list:
-        return re.findall(r'\w+', string)
-
- 
+        return re.split(',', string)
