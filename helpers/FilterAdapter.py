@@ -4,7 +4,7 @@ import re
 
 
 class FilterAdapter:
-    __ALLOWED_PARAMS = {'sent': 'sent', 'words':'words', 'strict':'strict'}
+    __ALLOWED_PARAMS = {'sent': 'sent', 'words':'words', 'strict':'strict', 'hotels':'hotels'}
     __params_received = {}
     __aParser = reqparse.RequestParser()
    
@@ -33,7 +33,7 @@ class FilterAdapter:
     def parseParams(self, param: str):
         if param == self.__ALLOWED_PARAMS['sent']:
             return self.parseSentimentParam
-        elif param == self.__ALLOWED_PARAMS['words']:
+        elif param == self.__ALLOWED_PARAMS['words'] or param == self.__ALLOWED_PARAMS['hotels']:
             return self.parseWords
         else:
             return lambda x: x
@@ -43,6 +43,4 @@ class FilterAdapter:
         return [int(sent) for sent in sents]
     
     def parseWords(self, string: str) -> list:
-        return re.findall(r'\w+', string)
-
- 
+        return re.split(',', string)
