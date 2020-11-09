@@ -1,5 +1,6 @@
 class HotelPopularityTransformer:
-    __hotel_popularity = []
+    def __init__(self):
+        self.__hotel_popularity = []
 
     def write(self, df):
         for index, value in enumerate(df[0]):
