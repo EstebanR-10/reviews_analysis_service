@@ -10,8 +10,9 @@ class NaturalLanguageProcessingService:
         support = params['support'] if 'support' in params else 0.0045
         confidence = params['confidence'] if 'confidence' in params else 0.5 
         hotels = params['hotels'] if 'hotels' in params else None
-        
-        transactions = getColumnWords(self.df, wordsQuantity, hotels)
+        sent = params['sent'] if 'sent' in params else None
+
+        transactions = getColumnWords(self.df, wordsQuantity, hotels, sent)
         association_rules = apriori(transactions, min_support=support, min_confidence=confidence, min_lift=3, min_length=3)
         return self.sortRules(list(association_rules))
     

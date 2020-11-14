@@ -8,10 +8,12 @@ from helpers.BagOfWords import stopwords, detected_stop
 # @param pandas.DataFrame 'df' dataframe
 # @return List 'transactions' 
 ###
-def getColumnWords(df: pd.DataFrame, size: int = None, hotels: list = None) -> list:
+def getColumnWords(df: pd.DataFrame, size: int = None, hotels: list = None, sent: list = None) -> list:
     
     if hotels:
         df = df[df['hotel_name'].isin(hotels)]
+    if sent:
+        df = df[df['sentiment_label'].isin(sent)]
 
     transactions = []
     for review in df.review_body:

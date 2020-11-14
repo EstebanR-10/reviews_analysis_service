@@ -20,7 +20,7 @@ Endpoint de reviews
 class ReviewsRouter(Resource):
     @marshal_with(response_resource_fields)
     def get(self):
-        return Response(0,'ha stato tutto benne!',  [],  200)
+        return Response(0,'è andato tutto benne!',  [],  200)
 
 """
 Endpoint encargado del conteo de reviews
@@ -32,7 +32,7 @@ class ReviewsCountRouter(Resource):
         service = CountReviews(ReviewsDomainService(df_tripadvisor), ReviewsCountTransformer())
         response = service.process(CountReviewsCommand(args))
         
-        return Response(0,'ha stato tutto benne!',  response,  200)
+        return Response(0,'è andato tutto benne!',  response,  200)
 
 """
 Endpoint encargado de la obtención de la frecuencia de palabras
@@ -43,7 +43,7 @@ class ReviewsWordsFrequencyRouter(Resource):
         service = GetReviewsWordsFrequence(ReviewsDomainService(df_tripadvisor), WordFrequencyTrasnformer())
         response = service.process()
         
-        return Response(0,'ha stato tutto benne!',  response,  200)
+        return Response(0,'è andato tutto benne!',  response,  200)
 
 """
 Endpoint encargado de la obtención de las reglas de asociación entre las palabras de los documentos
@@ -55,7 +55,7 @@ class AprioriReviewRules(Resource):
         service = GetAprioriReviewRules(NaturalLanguageProcessingService(df_tripadvisor), AprioriTransformer())
         response = service.process(GetAprioriReviewRulesCommand(10, args))
         
-        return Response(0,'ha stato tutto benne!',  response,  200)
+        return Response(0,'è andato tutto benne!',  response,  200)
 
 class MainRouter:
     def __init__(self,api):

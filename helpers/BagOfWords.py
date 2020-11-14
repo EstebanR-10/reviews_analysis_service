@@ -930,6 +930,8 @@ stopwords = {'english': ['sometimes',
   'sabemos',
   'puedo']}
 
+plurales = {('excelentes','excelente')}
+
 def BagOfWords(df, stopwords):
     vect = CountVectorizer(stop_words=stopwords, ngram_range=(1, 1), max_features=200, token_pattern=r'\b[^\d\W][^\d\W]+\b').fit(df.review_body)
     X = vect.transform(df.review_body)

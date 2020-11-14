@@ -21,7 +21,7 @@ class HotelsRouter(Resource):
         service = FetchHotels(HotelsDomainService(df_tripadvisor))
         response = service.process()
         
-        return Response(0,'ha stato tutto benne!',  response,  200)
+        return Response(0,'è andato tutto benne!',  response,  200)
         
 class PopularityRouter(Resource):
      @marshal_with(response_resource_fields)
@@ -29,7 +29,7 @@ class PopularityRouter(Resource):
         service = FetchHotelsByPopularity(HotelsDomainService(df_tripadvisor),  HotelPopularityTransformer())
         response = service.process()
         
-        return Response(0,'ha stato tutto benne!',  response,  200)
+        return Response(0,'è andato tutto benne!',  response,  200)
 
 class PopularityDistributionRouter(Resource):
      @marshal_with(response_resource_fields)
@@ -39,7 +39,7 @@ class PopularityDistributionRouter(Resource):
 
         response = service.process(FetchHotelsSentimentDistributionCommand(args))
         
-        return Response(0,'ha stato tutto benne!',  response,  200)
+        return Response(0,'è andato tutto benne!',  response,  200)
 
 class YearTimeSeriesRouter(Resource):
     @marshal_with(response_resource_fields)
@@ -48,7 +48,7 @@ class YearTimeSeriesRouter(Resource):
         service = GetHotelsYearsTimeSerie(HotelsDomainService(df_tripadvisor), HotelYearTimeSeriesTransformer())
         response = service.process(GetHotelsYearsTimeSerieCommand(args))
         
-        return Response(0,'ha stato tutto benne!',  response,  200)
+        return Response(0,'è andato tutto benne!',  response,  200)
 
 class MonthTimeSeriesRouter(Resource):
     @marshal_with(response_resource_fields)
@@ -57,7 +57,7 @@ class MonthTimeSeriesRouter(Resource):
         service = GetHotelsMonthTimeSerie(HotelsDomainService(df_tripadvisor), HotelMonthTimeSeriesTransformer())
         response = service.process(GetHotelsMonthTimeSerieCommand(args))
         
-        return Response(0,'ha stato tutto benne!',  response,  200)
+        return Response(0,'è andato tutto benne!',  response,  200)
 class MainRouter:
     def __init__(self,api):
         self.api = api
