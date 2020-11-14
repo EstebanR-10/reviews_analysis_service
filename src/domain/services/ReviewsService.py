@@ -1,4 +1,5 @@
 import pandas as pd
+from datetime import datetime
 from helpers.BagOfWords import BagOfWords, stopwords, detected_stop
 class ReviewsDomainService:
     def __init__(self, df):
@@ -14,11 +15,16 @@ class ReviewsDomainService:
     """
     Método encargado de devolver el número total de reviews disponibles en el dataset
     """
-    def allReviewsCount(self):
+    def allReviewsCount(self, startDate: datetime = None, endDate: datetime = None):
+        if startDate and endDate:
+            self.df = self.df[(self.df['review_date'] >= startDate) & (self.df['review_date'] <= endDate)]
         reviews_size = self.df.pivot_table(values='rating',index=['sentiment_label'], aggfunc=len)
         return reviews_size
     
-    def wordsFrequency(self):
+    def wordsFrequency(self, startDate: datetime = None, endDate: datetime = None):
+        if startDate and endDate:
+            self.df = self.df[(self.df['review_date'] >= startDate) & (self.df['review_date'] <= endDate)]
+
         bow_df = BagOfWords(self.df, set(stopwords['english']).union(set( stopwords['spanish'])).union(set(detected_stop)))
         word_freq = bow_df.sum().sort_values(ascending=False)
         return word_freq

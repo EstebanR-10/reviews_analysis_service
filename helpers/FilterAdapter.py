@@ -1,10 +1,11 @@
-from flask_restful import reqparse, fields, inputs
 import re
+from datetime import datetime
+from flask_restful import reqparse, fields, inputs
 
 
 
 class FilterAdapter:
-    __ALLOWED_PARAMS = {'sent': 'sent', 'words':'words', 'strict':'strict', 'hotels':'hotels'}
+    __ALLOWED_PARAMS = {'sent': 'sent', 'words':'words', 'strict':'strict', 'hotels':'hotels', 'startDate':'startDate', 'endDate':'endDate'}
     __params_received = {}
     __aParser = reqparse.RequestParser()
    
@@ -19,6 +20,8 @@ class FilterAdapter:
         self.__aParser.add_argument('takeRules', type=int, help='number of rules to return')
         self.__aParser.add_argument('strict', type=inputs.boolean, help='boolean that defines if all words should be taked')
         self.__aParser.add_argument('hotels', type=str, help='hotels to be displayed')
+        self.__aParser.add_argument('startDate', type=inputs.date, help='fecha inicial para filtrar entre periodos')
+        self.__aParser.add_argument('endDate', type=inputs.date, help='fecha de fin para filtrar entre periodos')
 
     def adapt(self):
         params = self.__aParser.parse_args()
@@ -44,3 +47,8 @@ class FilterAdapter:
     
     def parseWords(self, string: str) -> list:
         return re.split(',', string)
+
+    """ Desactivada temporalmente
+    def parseDateRange(self, startDate: datetime, endDate: datetime) -> list:
+        return [startDate,endDate]
+    """

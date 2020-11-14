@@ -8,7 +8,7 @@ from src.domain.services.ReviewsService import ReviewsDomainService
 from response import response_resource_fields, Response
 from helpers.FilterAdapter import FilterAdapter
 from src.application.transformers.ReviewsTransformer import ReviewsCountTransformer, WordFrequencyTrasnformer
-from src.application.GetReviewsWordsFrequence import GetReviewsWordsFrequence
+from src.application.GetReviewsWordsFrequence import GetReviewsWordsFrequence, Command as GetReviewsWordsFrequenceCommand
 from src.application.GetAprioriReviewRules import GetAprioriReviewRules, GetAprioriReviewRulesCommand
 from src.application.transformers.AprioriTransformer import AprioriTransformer
 from src.domain.services.NaturalLanguageProcessingService import NaturalLanguageProcessingService
@@ -40,8 +40,9 @@ Endpoint encargado de la obtención de la frecuencia de palabras
 class ReviewsWordsFrequencyRouter(Resource):
      @marshal_with(response_resource_fields)
      def get(self):
+        args = FilterAdapter().adapt()
         service = GetReviewsWordsFrequence(ReviewsDomainService(df_tripadvisor), WordFrequencyTrasnformer())
-        response = service.process()
+        response = service.process(GetReviewsWordsFrequenceCommand(args))
         
         return Response(0,'è andato tutto benne!',  response,  200)
 

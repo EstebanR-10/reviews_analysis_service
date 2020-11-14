@@ -12,8 +12,12 @@ class GetHotelsMonthTimeSerie:
         self.transformer = transformer
 
     def process(self, command):
-        df = self.domainService.allHotelsSentimentMonthDistributionTimeSeries()
-        self.transformer.write(df, command.params())
+        params = command.params()
+        startDate = params['startDate'] if 'startDate' in params else None
+        endDate = params['endDate'] if 'endDate' in params else None
+
+        df = self.domainService.allHotelsSentimentMonthDistributionTimeSeries(startDate, endDate)
+        self.transformer.write(df, params)
         return self.transformer.read()
 
 class Command:

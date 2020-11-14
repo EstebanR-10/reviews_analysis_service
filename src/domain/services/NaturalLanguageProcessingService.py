@@ -11,7 +11,12 @@ class NaturalLanguageProcessingService:
         confidence = params['confidence'] if 'confidence' in params else 0.5 
         hotels = params['hotels'] if 'hotels' in params else None
         sent = params['sent'] if 'sent' in params else None
-
+        
+        startDate = params['startDate'] if 'startDate' in params else None
+        endDate = params['endDate'] if 'endDate' in params else None
+        if startDate and endDate:
+            self.df = self.df[(self.df['review_date'] >= startDate) & (self.df['review_date'] <= endDate)]
+            
         transactions = getColumnWords(self.df, wordsQuantity, hotels, sent)
         association_rules = apriori(transactions, min_support=support, min_confidence=confidence, min_lift=3, min_length=3)
         return self.sortRules(list(association_rules))

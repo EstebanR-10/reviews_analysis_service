@@ -5,8 +5,12 @@ class FetchHotelsSentimentDistribution:
         self.transformer = transformer
 
     def process(self, command):
-        response =  self.domainService.allHotelsSentimentDistribution()
-        self.transformer.write(response, command.params())
+        params = command.params()
+        startDate = params['startDate'] if 'startDate' in params else None
+        endDate = params['endDate'] if 'endDate' in params else None
+
+        response =  self.domainService.allHotelsSentimentDistribution(startDate,endDate)
+        self.transformer.write(response, params)
         return self.transformer.read()
 
 
