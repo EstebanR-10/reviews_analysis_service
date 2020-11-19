@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, jsonify, send_from_directory
 from flask_restful import Resource, Api, marshal_with, marshal, reqparse
 from models.Hotel import hotel_resource_fields, Hotel
 from config.client.PyMongoConnectionClient import Connection
@@ -12,15 +12,19 @@ from src.application.GetReviewsWordsFrequence import GetReviewsWordsFrequence, C
 from src.application.GetAprioriReviewRules import GetAprioriReviewRules, GetAprioriReviewRulesCommand
 from src.application.transformers.AprioriTransformer import AprioriTransformer
 from src.domain.services.NaturalLanguageProcessingService import NaturalLanguageProcessingService
+from src.application.GetReviewsXmls import GetReviewsXmls
+from src.Infrastructure.ReviewsService import ReviewsService as ReviewsInfrService
+
 df_tripadvisor = Connection().getDataSet('tripadvisor')
 
 """
 Endpoint de reviews
 """
 class ReviewsRouter(Resource):
-    @marshal_with(response_resource_fields)
     def get(self):
-        return Response(0,'è andato tutto benne!',  [],  200)
+        service = GetReviewsXmls(ReviewsInfrService(df_tripadvisor))
+        response = service.process()
+        return send_from_directory(response['directory'], response['filename'], as_attachment=True)
 
 """
 Endpoint encargado del conteo de reviews
