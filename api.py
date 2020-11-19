@@ -8,6 +8,7 @@ from flask_cors import CORS
 #Routes imports
 from services.router.HotelsRouter import MainRouter as HotelsMainRouter
 from services.router.ReviewsRouter import MainRouter as ReviewsMainRouter
+from services.router.PlatformsRouter import MainRouter as PlatformsMainRouter
 
 port = int(os.environ.get("PORT", 5000))
 
@@ -46,6 +47,7 @@ api.add_resource(Main, '/')
 
 HotelsMainRouter(api).init()
 ReviewsMainRouter(api).init()
+PlatformsMainRouter(api).init()
 
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0', port=port)
